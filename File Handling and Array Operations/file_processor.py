@@ -62,7 +62,7 @@ class FileProcessor:
                 print(f"{item_type}: {item} - {size:.2f} MB - Última modificación: {time}")
             else:
                 # Se imprime el tipo de archivo y el nombre del archivo
-                print(f"{item_type}: {item}")\
+                print(f"{item_type}: {item}")
                 
 # Código de prueba
 if __name__ == "__main__":
