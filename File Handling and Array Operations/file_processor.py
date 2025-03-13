@@ -222,6 +222,14 @@ class FileProcessor:
                 # Se valida si contiene datos de imagen
                 if "PixelData" in dc_file:
                     try: 
+                        images = self.dicom_to_images(dc_file)
+
+                        for i, image in enumerate(images):
+                            image_path = os.path.join(self.base_path, f"{filename.replace('.dcm', '')}_{i}.png")
+                            image.save(image_path)
+                        print(f" Extracted image saved to {image_path}")
+
+                        """ Se comenta codigo de creacion de imagenes individual y en collage
                         if quan_frames == 1:
                             # Creamos la ruta de la imagen
                             image_path = os.path.join(self.base_path, filename.replace(".dcm", ".png"))
@@ -235,7 +243,8 @@ class FileProcessor:
                             # Llamamos al metodo para convertir la informacion de la imagen con PILLOW
                             self._dicom_to_image(dc_file, image_path, quan_frames)
                             # Se informa a usuario
-                            print(f" Extracted image saved to {image_path}")
+                            print(f" Extracted image saved to {image_path}")"""
+                        
                     except Exception as error:
                         # Se escribe un log indicandon que no se encontro imagen en los datos
                         self.logger.error(f"Error occurred while creating the image.")
@@ -258,8 +267,32 @@ class FileProcessor:
             # Mensaje al usuario
             print(f" Error reading the dcm file: {error}")
 
+    def dicom_to_images(self, dicom_file):
+        frames = dicom_file.pixel_array.astype(np.float32)
+        frames = apply_voi_lut(frames, dicom_file)
+
+        # Validamos si el archivos tiene multiples imagenes
+        if frames.ndim == 3:
+            # Creamos una lista vacia para almacenar las imagenes
+            images = []
+            # Recorremos el array de imagenes
+            for frame in range(frames.shape[0]):
+                # Agregamos la imagen a la lista
+                normalized_frame = self._normalize_frame(frames[frame])
+                images.append(normalized_frame)
+            return images
+        else:
+            return [self._normalize_frame(frames)]
+
+    def _normalize_frame(self, frame):
+        # Normalizamos los datos de la imagen
+        frame = (frame - frame.min()) / (frame.max() - frame.min()) * 255
+        # Convertimos los datos a entero
+        return Image.fromarray(frame.astype(np.uint8))
+
 
     """ Funcion enfocada en crear una sola imagen que proviene del archivo origen """
+    """ Se commenta codigo por aclaracion de la creacion de imagenes individual
     def _save_single_image(self, dicom_file, output_path):
         # Se convierte el dicom a un array de datos flotantes
         array = dicom_file.pixel_array.astype(np.float32)
@@ -270,9 +303,10 @@ class FileProcessor:
         # Convertimos los datos a entero
         image = Image.fromarray(array.astype(np.uint8))
         # Guardamos la imagen
-        image.save(output_path)
+        image.save(output_path)"""
 
     """ Funcion enfocada en crear un collage de imagen que proviene del archivo origen """
+    """ Se commenta codigo por aclaracion de la creacion de imagenes individual
     def _dicom_to_image(self, dicom_file, output_path, num_frames):
         # Se convierte el dicom a un array de datos flotantes
         frames = dicom_file.pixel_array.astype(np.float32)
@@ -298,7 +332,7 @@ class FileProcessor:
             collage.paste(img, (x, y))
 
         # Guardamos la imagen
-        collage.save(output_path)
+        collage.save(output_path) """
                 
 # Código de prueba
 if __name__ == "__main__":
@@ -310,7 +344,7 @@ if __name__ == "__main__":
     processor.read_csv("sample-02-csv.csv", report_path="averages_and_standard_deviations.txt", summary=True)
     # Se llama al metodo read_dicom, se envia el nombre del archivo, las etiquitas y si se desea extraer la imagen
     processor.read_dicom(
-        filename="sample-02-dicom-2.dcm",
+        filename="sample-02-dicom.dcm",
         tags=[(0x0010, 0x0010), (0x0008, 0x0060)],
         extract_image=True
     )
