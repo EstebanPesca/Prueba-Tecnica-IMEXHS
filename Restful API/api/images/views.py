@@ -43,12 +43,17 @@ class ImageFilter(filters.FilterSet):
         model = Image
         fields = ['created_date', 'updated_date', 'average_before_normalization', 'average_after_normalization', 'data_size']
 
+""" Clase enfocada a recibir la peticiones del endpoint """
 class ImageViewSet(viewsets.ModelViewSet):
+    # Solicitamos los datos del modelo Image
     queryset = Image.objects.all()
+    # Llamamos al Serializador
     serializer_class = ImageSerializer
+    # Solicitamos django-filter consultar datos con los filtros que se solicitaron en la Peticion GET
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = ImageFilter
 
+    # Funcion llamada al recibir peticion POST
     def create(self, request, *args, **kwargs):
         
         # Almacenamos el JSON en un variable 
@@ -56,9 +61,11 @@ class ImageViewSet(viewsets.ModelViewSet):
 
         # Procesamos cada elemento
         for key, value in payload.items():
-            # Llamamos al serializador con el metodo get_serializer
+            # Llamamos al serializador con el metodo get_serializer para validar los datos que se encuentran en el campo data
             serializer = self.get_serializer(data=value)
+            # Se valida que el dato enviado sea correcto
             serializer.is_valid(raise_exception=True)
+            # Se instancia el dato validado
             self.perform_create(serializer)
 
         return Response({"message":"Data created successfully"}, status=201)

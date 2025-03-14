@@ -20,9 +20,11 @@ from rest_framework.routers import DefaultRouter
 from images import views
 
 router = DefaultRouter()
+# Se indica cual es la siguiente fraccion del endpoint y se indica a que view se refiere
 router.register(r'images', views.ImageViewSet, basename='image')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # Se crea enpint de Device y Image
     path('api/', include(router.urls)),
 ]

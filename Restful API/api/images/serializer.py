@@ -98,6 +98,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
         return image
     
+    """ Actualizamos un registro existente """
     def update(self, instance, information):
 
         # Validamos que exista un id nuevo en lo solicitado
@@ -126,7 +127,7 @@ class ImageSerializer(serializers.ModelSerializer):
             # Convertimos los datos en un numpy array
             data_array = np.array(data)
             
-            # Instanciamos estos nuevos valires y calculamos nuevamente por si existe algun cambio
+            # Instanciamos estos nuevos valores y calculamos nuevamente por si existe algun cambio
             instance.average_before_normalization = self.calculate_before_normalization(data_array)
             instance.average_after_normalization = self.calculate_after_normalization(data_array)
             instance.data_size = len(data)

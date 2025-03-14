@@ -7,7 +7,7 @@ class Device(models.Model):
     def __str__(self):
         return self.device_name
 
-# Model'sImage
+# Model's Image
 class Image(models.Model):
     id = models.CharField(primary_key=True, max_length=100)
     device = models.ForeignKey(Device, on_delete=models.CASCADE)
