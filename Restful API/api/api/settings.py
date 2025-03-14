@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import logging
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,6 +29,53 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Loggin
+
+# Filtro para evitar guardar logs que genera django
+class ExcludeDjangoFilter(logging.Filter):
+    def filter(self, record):
+        # Excluimos logs que genera django
+        if record.name.startswith('django.db') or record.name.startswith('django.core'):
+            # No se va a registrar este log
+            return False
+        # Se va a registrar este log
+        return True
+
+# Verificamos que exista la carpeta logs
+LOG_DIR = os.path.join(BASE_DIR, 'logs')
+# Se valida si xiste, si no, se crea
+if not os.path.exists(LOG_DIR):
+    os.makedirs(LOG_DIR)
+
+LOGGING = {
+    'version': 1,
+    'disabled_existing_loggers': False,
+    'filters': {
+        'exclude_django': {
+            '()': ExcludeDjangoFilter,
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/api.log'),
+            'filters': ['exclude_django']
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'images': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
 
 # Application definition
 
@@ -52,7 +101,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Middleware personalizado
+    'images.middleware.LoggingMiddleware',
 ]
+
+# REST FRAMEWORK
+
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'images.views.custom_exception_handler',
+}
 
 ROOT_URLCONF = 'api.urls'
 

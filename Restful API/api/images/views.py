@@ -2,11 +2,20 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
 from django_filters import rest_framework as filters
+from rest_framework.views import exception_handler
+import logging
+
+logger = logging.getLogger('django')
 
 from .models import Device, Image
 from .serializer import DeviceSerializer, ImageSerializer
 
 # Create your views here.
+
+def custom_exception_handler(exc, context):
+    logger.error(f"ERROR: {exc}")
+    response = exception_handler(exc, context)
+    return response
 
 class DeviceViewSet(viewsets.ModelViewSet):
     queryset = Device.objects.all()
