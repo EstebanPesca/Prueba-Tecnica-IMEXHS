@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework', # Se llama a el framework de DJF
-    # Se llaman a las apps creada
+    # Libraries
+    'rest_framework',
+    # Apps
     'images', 
 ]
 

@@ -2,11 +2,10 @@ from django.db import models
 
 # Model's Device 
 class Device(models.Model):
-    id = models.CharField(primary_key=True, max_length=100)
-    device_name = models.CharField(max_length=200)
+    device_name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
-        return self.id, self.device_name
+        return self.device_name
 
 # Model'sImage
 class Image(models.Model):
@@ -16,7 +15,7 @@ class Image(models.Model):
     average_after_normalization = models.FloatField()
     data_size = models.IntegerField()
     created_date = models.DateTimeField(auto_now_add=True)
-    created_updated = models.DateTimeField(auto_now=True)
+    updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.id
