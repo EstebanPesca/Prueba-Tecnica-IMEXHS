@@ -10,6 +10,8 @@ class DeviceSerializer(serializers.ModelSerializer):
 
 class ImageSerializer(serializers.ModelSerializer):
 
+    # Llamamos al campo device para mostrarlo en las respuestas
+    device = DeviceSerializer(read_only=True)
     # Indicamos que este campo no es obligatorio
     id =  serializers.CharField(required=False)
     # Se le indica que este campo tan solo sera para escritura, no se enviara como respuesta
@@ -19,7 +21,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Image
-        fields = ['id', 'deviceName', 'data', 'average_before_normalization', 'average_after_normalization', 'data_size', 'created_date', 'updated_date']
+        fields = ['id', 'device', 'deviceName', 'data', 'average_before_normalization', 'average_after_normalization', 'data_size', 'created_date', 'updated_date']
         # Indicamos que datos no se reciben en la informacion adquirida
         read_only_fields = ['average_before_normalization', 'average_after_normalization', 'data_size', 'created_date', 'updated_date']
 
