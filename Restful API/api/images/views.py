@@ -54,3 +54,6 @@ class ImageViewSet(viewsets.ModelViewSet):
 
         return Response({"message":"Data created successfully"}, status=201)
     
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+    
