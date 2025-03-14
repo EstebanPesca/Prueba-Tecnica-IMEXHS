@@ -65,7 +65,7 @@ class ImageSerializer(serializers.ModelSerializer):
         # Se obtiene el disposituvo o crea uno nuevo
         device, _ = Device.objects.get_or_create(device_name=device_name)
 
-        # Se crea el objeto
+        # Se crea el registro
         image = Image.objects.create(
             id = information.pop('id'),
             device = device,

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
+from django_filters import rest_framework as filters
 
 from .models import Device, Image
 from .serializer import DeviceSerializer, ImageSerializer
@@ -11,10 +12,33 @@ class DeviceViewSet(viewsets.ModelViewSet):
     queryset = Device.objects.all()
     serializer_class = DeviceSerializer
 
+""" Filtros personalizados para obtener informacion """
+class ImageFilter(filters.FilterSet):
+    # Filtro para obtener fecha de creacion "mayor o menor que o a igual"
+    created_date_gte = filters.DateFilter(field_name="created_date", lookup_expr="gte")
+    created_date_lte = filters.DateFilter(field_name="created_date", lookup_expr="lte")
+    # Filtro para obtener fecha de actualizacion "mayor o menor que o a igual"
+    updated_date_gte = filters.DateFilter(field_name="updated_date", lookup_expr="gte")
+    updated_date_lte = filters.DateFilter(field_name="updated_date", lookup_expr="lte")
+    # Filtro para obtener promedio antes de la normalizacion "mayor o menor que o a igual"
+    average_before_normalization_gte = filters.NumberFilter(field_name="average_before_normalization", lookup_expr="gte")
+    average_before_normalization_lte = filters.NumberFilter(field_name="average_before_normalization", lookup_expr="lte")
+    # Filtro para obtener promedio despues de la normalizacion "mayor o menor que o a igual"
+    average_after_normalization_gte = filters.NumberFilter(field_name="average_after_normalization", lookup_expr="gte")
+    average_after_normalization_lte = filters.NumberFilter(field_name="average_after_normalization", lookup_expr="lte")
+    # Filtro para obtener tamaño "mayor o menor que o a igual"
+    data_zise_gte = filters.NumberFilter(field_name="data_size", lookup_expr="gte")
+    data_zise_lte = filters.NumberFilter(field_name="data_size", lookup_expr="lte")
+
+    class Meta:
+        model = Image
+        fields = ['created_date', 'updated_date', 'average_before_normalization', 'average_after_normalization', 'data_size']
 
 class ImageViewSet(viewsets.ModelViewSet):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = ImageFilter
 
     def create(self, request, *args, **kwargs):
         
@@ -29,3 +53,4 @@ class ImageViewSet(viewsets.ModelViewSet):
             self.perform_create(serializer)
 
         return Response({"message":"Data created successfully"}, status=201)
+    
