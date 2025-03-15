@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 // Servicies
 import { StainService } from '../../core/services/stain/stain.service';
+import { ImageService } from '../../core/services/image/image.service';
 
 @Component({
   selector: 'app-area-calculator',
@@ -18,6 +19,7 @@ export class AreaCalculatorComponent {
 
   // Se instancian los servicios 
   private _stainService = inject(StainService);
+  public _imageService = inject(ImageService);
 
   // Se obtiene el calculo estimado de la cantidad de puntos en la mancha
   public estimatedArea: Signal<number | null> = this._stainService.getEstimatedArea();

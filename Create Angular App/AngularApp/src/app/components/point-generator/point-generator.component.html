@@ -1,12 +1,22 @@
-<mat-slider min="10" max="1000" step="10">
-    <input matSliderThumb (input)="updatePointCount($event)" [value]="pointCount">
-  </mat-slider>
-  <p>Puntos generados: {{ pointCount }}</p>
-<button mat-raised-button color="primary" (click)="generatePoints()">Generar Puntos</button>
-
-<div class="point-container">
-  <img *ngIf="_imageService.getImage()()" [src]="_imageService.getImage()()" class="preview-img">
-  <svg *ngIf="points().length > 0" class="overlay">
-    <circle *ngFor="let point of points()" [attr.cx]="point.x" [attr.cy]="point.y" r="2" fill="red"></circle>
-  </svg>
-</div>
+@if(_imageService.getImage()()){
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="position-relative d-inline-block">
+      <img *ngIf="_imageService.getImage()()" [src]="_imageService.getImage()()" class="preview-img">
+      <svg *ngIf="points().length > 0" class="overlay">
+        <circle *ngFor="let point of points()" [attr.cx]="point.x" [attr.cy]="point.y" r="2" fill="red"></circle>
+      </svg>
+    </div>
+  </div>
+  <div class="d-flex flex-column align-items-center">
+    <!-- Slider -->
+    <p class="m-0">Points:{{ pointCount }}</p>
+    <mat-slider min="10" max="1000" step="10">
+        <input matSliderThumb (input)="updatePointCount($event)" [value]="pointCount">
+    </mat-slider>
+    <!-- EndSlider -->
+    <!-- Button "Calculate" -->
+    <button mat-raised-button class="w-auto" color="primary" (click)="generatePoints()">Generate points.</button>
+    <!-- END Button "Calculate" -->
+  </div>
+    
+}

@@ -1,11 +1,37 @@
-<app-carousel></app-carousel>
-<mat-tab-group>
-    <mat-tab label="Calcular Área">
-      <app-upload></app-upload>
-      <app-point-generator></app-point-generator>
-      <app-area-calculator></app-area-calculator>
-    </mat-tab>
-    <mat-tab label="Historial de Cálculos">
-      <app-results-table></app-results-table>
-    </mat-tab>
-</mat-tab-group>
+<div class="w-100 h-100">
+  <div class="container p-4">
+    <div class="d-flex justify-content-center align-items-center">
+      <app-carousel></app-carousel>
+    </div>
+    <!-- Tabs 'Upload and Calculante' and 'History' -->
+    <mat-tab-group>
+      <!-- Title first tab -->
+      <mat-tab label="Calculate Area">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <div>
+            <!-- Upload image -->
+            <app-upload></app-upload>
+            <!-- END Upload image -->
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <!-- Slider -->
+              <app-point-generator></app-point-generator>
+              <!-- End Slider -->
+            </div>
+            <div class="col-md-6">
+              <!-- Calculate Area -->
+              <app-area-calculator></app-area-calculator>
+              <!-- END Calculate Area -->
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+        <!-- Title Second tab -->
+      <mat-tab label="Calculation History">
+        <app-results-table></app-results-table>
+      </mat-tab>
+    </mat-tab-group>
+    <!-- END Tabs 'Upload and Calculante' and 'History' -->
+  </div>
+</div>
