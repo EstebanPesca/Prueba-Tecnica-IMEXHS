@@ -21,6 +21,7 @@ Esta aplicación esta diseñada para estimar el área de una mancha(stain) en un
 Sigue estos pasos para configurar y ejecutar la aplicación:
 
 - Ingresar a la carpeta de la aplicacion
+
 cd AngularApp
 
 - Instalar Dependencias
