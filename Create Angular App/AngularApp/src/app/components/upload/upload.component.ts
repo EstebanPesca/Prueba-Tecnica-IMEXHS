@@ -23,21 +23,24 @@ import { ImageService } from '../../core/services/image/image.service';
 })
 export class UploadComponent {
 
-  private imageService = inject(ImageService);
-
-  constructor(
-    private _imageService: ImageService
-  ){}
+  // instanciamos el servicio
+  private _imageService = inject(ImageService);
   
-  imageSrc: Signal<string | null> = this.imageService.getImage();
+  // Se almacena la imagen para mostrarla posteriormente
+  public imageSrc: Signal<string | null> = this._imageService.getImage();
 
   onFileSelected(event: Event) {
+    // Cupturamos la imagen seleccionada por el usuario
     const file = (event.target as HTMLInputElement).files?.[0];
+    // Validamos que contenga informacion
     if (file) {
+      // Instancimos un lector de archivos
       const reader = new FileReader();
+      // Guardamos la imagen
       reader.onload = () => {
         this._imageService.setImage(reader.result as string);
       };
+      // Guardamos la imagen de forma local
       reader.readAsDataURL(file);
     }
   }
