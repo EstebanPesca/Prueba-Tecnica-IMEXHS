@@ -9,6 +9,7 @@ import { ResultsTableComponent } from './components/results-table/results-table.
 
 // Materiasl
 import { MatTabsModule } from '@angular/material/tabs';
+import { CarouselComponent } from './components/carousel/carousel.component';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     AreaCalculatorComponent,
     ResultsTableComponent,
     MatTabsModule,
+    CarouselComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
