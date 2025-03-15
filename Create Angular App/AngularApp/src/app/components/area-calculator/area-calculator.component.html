@@ -1,0 +1,2 @@
+<button mat-raised-button color="primary" (click)="calculateArea()">Calcular Área</button>
+<p *ngIf="estimatedArea() !== null">Área Estimada: {{ estimatedArea() | number:'1.0-2' }} px²</p>
