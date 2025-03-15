@@ -1,6 +1,7 @@
 import { Injectable, signal, Signal } from '@angular/core';
 import { PointService } from '../point/point.service';
 import { ImageService } from '../image/image.service';
+import { ResultService } from '../result/result.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class StainService {
 
   constructor(
     private _pointService: PointService, 
-    private _imageService: ImageService
+    private _imageService: ImageService,
+    private _resultsService: ResultService
   ) {}
 
   /**
@@ -66,6 +68,9 @@ export class StainService {
       const estimatedArea = totalArea * (ni / points.length);
       // Almacenamos el valor obtenido
       this.estimatedArea.set(estimatedArea);
+
+      // Guardamos los datos para mostrarlos en una tabla
+      this._resultsService.saveResult(points.length, estimatedArea);
     };
   }
 

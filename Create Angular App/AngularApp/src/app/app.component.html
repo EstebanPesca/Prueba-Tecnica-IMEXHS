@@ -1,3 +1,10 @@
-<app-upload></app-upload>
-<app-point-generator></app-point-generator>
-<app-area-calculator></app-area-calculator>
+<mat-tab-group>
+    <mat-tab label="Calcular Área">
+      <app-upload></app-upload>
+      <app-point-generator></app-point-generator>
+      <app-area-calculator></app-area-calculator>
+    </mat-tab>
+    <mat-tab label="Historial de Cálculos">
+      <app-results-table></app-results-table>
+    </mat-tab>
+</mat-tab-group>
