@@ -19,10 +19,11 @@ La aplicación usa las siguientes librerías de Python:
 - **pydicom**
 - **numpy**
 - **Pillow**
+- **Pandas**
 
 Para instalarlas se usado el comando:
 
-pip install pydicom numpy pillow
+pip install pydicom numpy pillow pandas
 
 Para correr el codigo se corre de esta manera:
 
