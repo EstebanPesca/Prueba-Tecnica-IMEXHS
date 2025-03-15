@@ -1,0 +1,9 @@
+@if(_imageService.getImage()()){
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <div class="">
+            <p class="text-center fs-5 fw-lighter">We will estimate the area of the spot as Area with the formula: (Total area of the image) x (Stain/Points)</p>
+        </div>
+        <button mat-raised-button class="w-50" color="primary" (click)="calculateArea()">Calculate Area</button>
+        <p *ngIf="estimatedArea() !== null" class="mt-2">Estimate Area: {{ estimatedArea() | number:'1.0-2' }} px²</p>
+    </div>
+}
